@@ -1,506 +1,581 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Community - BookNook</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        /* Additional CSS for Community Page */
+      /* Additional CSS for Community Page */
 
-/* === COMMUNITY PAGE SPECIFIC STYLES === */
+      /* === COMMUNITY PAGE SPECIFIC STYLES === */
 
-/* Tag styles */
-.tag {
-    background-color: var(--accent-color);
-    color: white;
-    padding: 0.3rem 0.6rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
+      /* Tag styles */
+      .tag {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
 
-/* Event cards */
-.events-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
-}
+      /* Event cards */
+      .events-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+      }
 
-.event-card {
-    background-color: var(--secondary-bg);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    display: flex;
-    width: 350px;
-    transition: transform 0.3s ease;
-}
+      .event-card {
+        background-color: var(--secondary-bg);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        display: flex;
+        width: 350px;
+        transition: transform 0.3s ease;
+      }
 
-.event-card:hover {
-    transform: translateY(-5px);
-}
+      .event-card:hover {
+        transform: translateY(-5px);
+      }
 
-.event-date {
-    background-color: var(--accent-color);
-    color: white;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-width: 80px;
-}
-
-.event-date .day {
-    font-size: 1.8rem;
-    font-weight: 700;
-}
-
-.event-date .month {
-    font-size: 0.9rem;
-    text-transform: uppercase;
-}
-
-.event-details {
-    padding: 1rem;
-    flex: 1;
-}
-
-.event-details h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-}
-
-.event-details p {
-    margin-bottom: 0.5rem;
-    color: var(--secondary-color);
-    font-size: 0.9rem;
-}
-
-.event-details .add-btn {
-    margin-top: 0.5rem;
-    width: auto;
-    padding: 0.4rem 1rem;
-}
-
-/* Search filter in community */
-.search-filter {
-    width: 250px;
-}
-
-.search-filter input {
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-}
-
-/* Community content styling enhancements */
-.discussion-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.discussion-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-}
-
-.discussion-content h3 {
-    margin-bottom: 0.8rem;
-    color: var(--accent-color);
-}
-
-.user-info h4 {
-    font-size: 1rem;
-    margin-bottom: 0.2rem;
-}
-
-.user-info small {
-    color: var(--secondary-color);
-    font-size: 0.8rem;
-}
-
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
-    .community-container {
-        grid-template-columns: 1fr;
-    }
-    
-    .community-sidebar {
-        margin-bottom: 2rem;
-    }
-    
-    .events-container {
+      .event-date {
+        background-color: var(--accent-color);
+        color: white;
+        padding: 1rem;
+        display: flex;
         flex-direction: column;
         align-items: center;
-    }
-    
-    .event-card {
-        width: 100%;
-        max-width: 350px;
-    }
-    
-    .bookshelf-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .search-filter {
-        width: 100%;
-        margin-top: 1rem;
-    }
-    
-    .shelf-nav {
-        flex-wrap: wrap;
-    }
-}
+        justify-content: center;
+        min-width: 80px;
+      }
 
-/* Animation for discussion cards */
-.discussion-card {
-    animation: slideInUp 0.5s ease forwards;
-    opacity: 0;
-}
+      .event-date .day {
+        font-size: 1.8rem;
+        font-weight: 700;
+      }
 
-.discussion-card:nth-child(1) {
-    animation-delay: 0.1s;
-}
+      .event-date .month {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+      }
 
-.discussion-card:nth-child(2) {
-    animation-delay: 0.2s;
-}
+      .event-details {
+        padding: 1rem;
+        flex: 1;
+      }
 
-.discussion-card:nth-child(3) {
-    animation-delay: 0.3s;
-}
+      .event-details h3 {
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+      }
 
-.discussion-card:nth-child(4) {
-    animation-delay: 0.4s;
-}
+      .event-details p {
+        margin-bottom: 0.5rem;
+        color: var(--secondary-color);
+        font-size: 0.9rem;
+      }
 
-@keyframes slideInUp {
-    from {
+      .event-details .add-btn {
+        margin-top: 0.5rem;
+        width: auto;
+        padding: 0.4rem 1rem;
+      }
+
+      /* Search filter in community */
+      .search-filter {
+        width: 250px;
+      }
+
+      .search-filter input {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+      }
+
+      /* Community content styling enhancements */
+      .discussion-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .discussion-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+      }
+
+      .discussion-content h3 {
+        margin-bottom: 0.8rem;
+        color: var(--accent-color);
+      }
+
+      .user-info h4 {
+        font-size: 1rem;
+        margin-bottom: 0.2rem;
+      }
+
+      .user-info small {
+        color: var(--secondary-color);
+        font-size: 0.8rem;
+      }
+
+      /* Responsive adjustments */
+      @media screen and (max-width: 768px) {
+        .community-container {
+          grid-template-columns: 1fr;
+        }
+
+        .community-sidebar {
+          margin-bottom: 2rem;
+        }
+
+        .events-container {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .event-card {
+          width: 100%;
+          max-width: 350px;
+        }
+
+        .bookshelf-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .search-filter {
+          width: 100%;
+          margin-top: 1rem;
+        }
+
+        .shelf-nav {
+          flex-wrap: wrap;
+        }
+      }
+
+      /* Animation for discussion cards */
+      .discussion-card {
+        animation: slideInUp 0.5s ease forwards;
         opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+      }
 
-/* Community sidebar styling */
-.community-sidebar h3 {
-    margin: 1.5rem 0 1rem 0;
-    color: var(--accent-color);
-}
+      .discussion-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
 
-.community-sidebar h3:first-child {
-    margin-top: 0;
-}
+      .discussion-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
 
-.community-sidebar ul {
-    margin-bottom: 2rem;
-}
+      .discussion-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
 
-.community-sidebar ul li {
-    margin-bottom: 0.8rem;
-}
+      .discussion-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
 
-.community-sidebar ul li a {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.3s ease;
-}
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
 
-.community-sidebar ul li a:hover {
-    color: var(--accent-color);
-    transform: translateX(5px);
-}
+      /* Community sidebar styling */
+      .community-sidebar h3 {
+        margin: 1.5rem 0 1rem 0;
+        color: var(--accent-color);
+      }
 
-.community-sidebar .form-btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 2rem;
-}
+      .community-sidebar h3:first-child {
+        margin-top: 0;
+      }
+
+      .community-sidebar ul {
+        margin-bottom: 2rem;
+      }
+
+      .community-sidebar ul li {
+        margin-bottom: 0.8rem;
+      }
+
+      .community-sidebar ul li a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .community-sidebar ul li a:hover {
+        color: var(--accent-color);
+        transform: translateX(5px);
+      }
+
+      .community-sidebar .form-btn {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <div class="logo">
-            <h1>BookNook</h1>
+      <div class="logo">
+        <h1>BookNook</h1>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="bookshelf.html">My Book Shelf</a></li>
+          <li><a href="community.html" class="active">Community</a></li>
+          <li><a href="login.html" class="login-btn">Login</a></li>
+        </ul>
+        <div class="burger">
+          <div class="line1"></div>
+          <div class="line2"></div>
+          <div class="line3"></div>
         </div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="bookshelf.html">My Book Shelf</a></li>
-                <li><a href="community.html" class="active">Community</a></li>
-                <li><a href="login.html" class="login-btn">Login</a></li>
-            </ul>
-            <div class="burger">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
-        </nav>
+      </nav>
     </header>
 
     <main>
-        <section>
-            <h2>Book Community</h2>
-            <div class="community-container">
-                <!-- Sidebar -->
-                <div class="community-sidebar">
-                    <h3>Popular Topics</h3>
-                    <ul>
-                        <li><a href="#"><i class="fas fa-fire"></i> Book Recommendations</a></li>
-                        <li><a href="#"><i class="fas fa-star"></i> New Releases</a></li>
-                        <li><a href="#"><i class="fas fa-comments"></i> Reading Groups</a></li>
-                        <li><a href="#"><i class="fas fa-question-circle"></i> Book Club Questions</a></li>
-                        <li><a href="#"><i class="fas fa-quote-left"></i> Quotes & Passages</a></li>
-                        <li><a href="#"><i class="fas fa-pen"></i> Author Discussions</a></li>
-                    </ul>
-                    
-                    <h3>Book Clubs</h3>
-                    <ul>
-                        <li><a href="#"><i class="fas fa-users"></i> Science Fiction Enthusiasts</a></li>
-                        <li><a href="#"><i class="fas fa-users"></i> Mystery Lovers</a></li>
-                        <li><a href="#"><i class="fas fa-users"></i> Fantasy Realms</a></li>
-                        <li><a href="#"><i class="fas fa-users"></i> Literary Classics</a></li>
-                        <li><a href="#"><i class="fas fa-users"></i> Non-Fiction Knowledge</a></li>
-                    </ul>
-                    
-                    <button class="form-btn">
-                        <i class="fas fa-plus"></i> Create New Discussion
-                    </button>
-                </div>
-                
-                <!-- Main Content -->
-                <div class="community-content">
-                    <div class="bookshelf-header">
-                        <h3>Recent Discussions</h3>
-                        <div class="search-filter">
-                            <input type="text" class="form-control" placeholder="Search discussions...">
-                        </div>
-                    </div>
-                    
-                    <div class="shelf-nav">
-                        <div class="shelf-tab active">All Posts</div>
-                        <div class="shelf-tab">Hot Topics</div>
-                        <div class="shelf-tab">Book Reviews</div>
-                        <div class="shelf-tab">Author Spotlights</div>
-                    </div>
-                    
-                    <!-- Discussion Cards -->
-                    <div class="discussion-card">
-                        <div class="discussion-header">
-                            <div class="user-info">
-                                <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEBUSEhIVFRUVFRUVFRcVFRUVFxUVFRUWFxUVFRUYHSggGBolGxUVITEhJSkrLi4uFx8zODMsNygtLisBCgoKDQ0NFQ8PFSsZFRkrLSsrKystKystLSsrNys3LS0tNy0rKystKysrLSsrKysrKysrKysrKysrLSsrKysrK//AABEIAQMAwwMBIgACEQEDEQH/xAAbAAACAgMBAAAAAAAAAAAAAAAAAQIFAwQGB//EAEAQAAIBAgMECAMFBQgDAQAAAAABAgMRBCExBRJBUQYTImFxgZGhMrHBQlJi0fAHFCNykiQzc4Ki0uHxFkODFf/EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAbEQEBAQEBAQEBAAAAAAAAAAAAARExAhJBIf/aAAwDAQACEQMRAD8A6NMTGDZURBjYAIEMVgJAJABK47kbDsA7kkyNGMpu0IuT7iyjsara7XldAaKZO5nrYRxyasa0Lt2txswMiJxJOlyDdaCmiSMaJoCQxEgItgEmAANIBogd0AhlFSDGRkERsA7DAVgGCAVhjTISqxWslztq/RAYquIs91a8e42Nk7OnXnnLJfE78O5FLPa+FpSblVjd3fako+yvL2NSXT6jSzpbzf4Itr1k4/IuJr0DFV1R/hUo7ttZWzb8TDSxVS905e7PPa/7Sqr+GE34ygvkmYl+0mutYT8qkf8AYMp9R63BTqR/iQjlxk3ErMQoqWVvLNepwlH9pd8qkKtv8s/rEtcJ0zwtTWolf714P0krf6hlXY6KlLmKrWSMFHERmk4STvp3/R+RhxFyKy16tu1fLj5/9mdFLXr71Ka5ZG/sjEdZRhLjaz8Y5P5AbqGxXE2AAhMEwHFkrkBgSALgBXMjoSIsISGIYEWV+P2tTpJ3ay15L/nuRk2zXlChOUVmll3XaV/c4HGTcpZ6LRN9+r5ssmpasNo9K6s8qUbLS88r+EV9X5FBiJVqn95Vcu7SP9KyNmb5s3djbMdeb3pKFOKc6k3pCC1b/I3GeqfAbFqVpqFGm5PuXzLWPRaMMqteCl9ykuteXByj2E/GRZYjam+upw8XSw/3VlOtzlWks3f7ui7zc2ZsxzSeiXDT0BjSwmwMN92tJ5a1KdP2UZ/MtHsTCqNnh34qu/8AYXeE2RaN0ny9zZeAlLK1vBGNaxz09kYGSt1FSGWbhVT8rSgV+N6K4Z/3U6kW9FUipLu7UXf2OzqbOjDOTt+s/mitxHVv7cVnazaWfdfuLKY42jsqtQ7dNtLjKk1Jf546r/Mi9wHSeaW7WSa+/BN2/mhdteXobNebhmvJ3+TK2p1c53neP46aSd3xnHSfs+8IvI1YShLdfxZqzvdW4C6JVkt+k9VLeXnlL3S9SklQqUl1itUpN5zp5qMuG9HWEtMnYybI2gv3mEub3Z96lkpethiu5uJsEBlorggYIAJoiMDIhEbiA0RMdxMISHYQ7gRq01JOLV01Zruepxu2thTpveinKHNaxXKX5/I7VMkWUseTSjnrcvce+qwVKkvirvranfCLapxfdlveh1eK2Hh6kt6VNKXON4+qWTOB6VuNSruU5ya3adKz+xuU4qaXmte9mpWLMasNqWl1dFKU8ryd3FeFtWX2ztqOEovtyafaabUW9NORLYNDDYaMY1GlvZc2729MzpKuHw0s6d1bkk1528hasdBsfasZwW9qW1GcLe55q8bOE0o63t3F9X2hOFGLT1Xfe5mxrWbbtbfb3HmtL6enkUcdnVqq3XBTt3Zrn3Ntc+Rt7MxaqzSk9eHFkdudJqmF/u6T3FPcTVrb2rUpN2TsEVOP6PYmgm6afdG7s1e9nqvS3iVUsRJtpwcZa24PjkzosP0txNWlUqVKDlTpy3JySTSdld70W8u/TvNTEqniYb8X3rmmVFZs/ac6NTrIZ5WnF/DOPGMo8US6T01FU8XhF/BqafehJO8qbXOP5FVid6GUuGv0ZsdH8Y5xr4Zu6lDrqa5VKWckuW9Tv/SU16VszFqrRp1F9uKfg2s0bJQ9C6t8Il92c15b118y+MNwAIAJWGRuSQDAYgNGwmTsFgiFhjCwEUO4MaYDTPPNrYLdxVXLWTmuXat/yehXOM6Rx3cU2vtRX69i+Urlo7JniOsVRPfco7jvlGKbvePG6evceh7A2bTw2GlvOnvStKU1C0otRSSi4tJaacShw7UbWzZt1KUpK7u7aLgr6fMqSIRquVXeWbu3fly9ixxeLm12lw9Ta2DsyKlabV34cS52psmmku0tLvu8SLjjMLPdnvQtbhf3XcdRg6dDERUKkclnuSb3U0tY5lJiMDGk+tpyVSlf+Ik07Li01o0W1fY7hFVKct6EldPik80BLaGzowg6dG8IZvdjJqL3tcr2OfwOEWHUrppN6cC4jXmsnmae0q0ZRavn3gcn0gs5NrTI57DY3qcTTq2vuSTa5xvaS84tot9qtp2ZSSwc6japxcnlklc2x6eqdBpp4aVtOtnbwdmjozj+iGKhQgqFRuM5zbSass0kl7HYI510nAAhoKbQ4iJICaEIANWwNDBERFiJhYoggSJ2EwINHBdKMRL95d1u2W6u9LNPvvc79nC9OoWrwlzireTL5Sp7LjHJvVl7jZxjhfxSaa55O7OWwFa7jFa5G5tTHKclBZqOXnx8TSI4aDi1Uw1WrF3/AItOs3KM3+D7pbbY2dWxMIRnVlCk85KLs59za4GLZmBlk5Winnnm7fyo6OvhJyppRnHdt2bRl9dCVZHLrZtPD0upw8dxSXanOTcpt6tx0Oz2LjY9RGC0UVG3grX9jmcdhKkV2kpW4rVW7mYdnYyUH2c1xXcQXWLlG7XHP9exy+06+vj7G7tfFfaWjOexNdyZZCq3atX10F0cxThUk4q8pbsY5N5tPW3AxbS0RddBq9OnepOai3XowV+KqPckkvCTZpj9WeycPHr5b6blKnvKUs7yi0048lnojuUV+1I0XKiqbTqRrRi3F5OLjJyX+ksUYrpBYEhgRTQ0K4wHcBoQGuCBgiBMAJFEQuMQQjkun1HKjL8Uo+qv9DrkUfTHD72Fk+MJRn6ZP2bLOpXFbOlaad9E37Fhhq8abjOWbk7Lx4ruZW4O2+uCev5HUYVRjCytzV1c1Ui42biq1SypUo2T4vNr6FtiKOL3MowVvxZr01KDB7QnTd4xV+52RY/+SV5KyoxV9W23l4WMtNDH4nEKPaUJeF725IpcFipzm70t1JZS0vnpnqXtbFO3a15JWXqVNWb1foEaO05vNGjgY7zZDaNfN5+Bmwz3IX5mkUe1Hmb/AEOw0N7raiuotqKfPLNd+aKjac7s7XodsnrcDTakknUnKWV2nfde6+9RQrM6t9hYTerSq2e7TThC+S3n8TXyudGjHh6MYRUIrJKyMph1ADEAEkAgHcYrgBgsFhoRANBYaYyiFh2HcAiJhxmHVSnOD+1Fr1VjOJgeRwk4tp5OLa8GsmjoNmV7q1+CsYemmyuqr9al2Krv4T4rz19TV2TXtkbZdTRg3a3ItqVBxptv1SKjAYxaP9d502ExlNw7TSMrFFXs+OfuV209Mi1xdendRjbN/n+RzW3sZlZZalgpK7Tqa5IeKxDasV/XZ+BDEV0jTOtPaNY9P/Zs3/8AnwT4Tqe8m/qeW4Si6s95/An6vuPVugC/sa/xKnzJ64nnrpkxoiiUTDqkIAAkCQhoBDAAMCGRuCIGSuQY0ygGDEEMTAi0BRdMKe/RjC9rydvFRdvmef4OpnZ5TjquHj3pnoPSXNU13y+SOF2pgN6Ts7STvF+OdvA3GatKE95ZP305Gfraiyvr8jkltCdJ2ndd60Zsf+Qw+8MSV0MakoptspdrYnfl36ZGlX25B/b+ZoPHOo7U4yk3xtzGJayYiqlp5ceAqGElU+K9uNvkbOE2XJO8vifsX2HwijG1vEqYrY0lFWSskd90CX9jX+JU+ZxeJjk8jsugMv7J/wDSp80T1xuddKkMEwMNpIBAgJXGJDALAAwNW4myNx3IHcLkWMom2LeINiuETciLkKnBt2SbfcY8fUjSVpSTn9yObT/E9EBT9I6vapr+Z/Io8VSTafPJ/Q3dtzcqkd7VRV1wTldpejRiVNSjb9XNRFJiMN2s1k+ejMuG2Dh560o+Vzcr03Ynh3YqYlDovhdVQhl4fU1MVhlDKCUe5KxcLFrdtfMrMQ78QNXZ+HvK+pvYiKSzJ4OFkY8YBUYydzqf2fVV+7zjdXVWV1xSajZ28n6HKYs1ti4uVDE9ZF8EpLhKN3dPyF4j15SJpmpgsTTquUac05x+KDymuN0vtK2d1zM6Zhtl3gTMdySCsiY0yMR3AncCIAaSYXMSkO5EZN4kZcLgKk/hg7c9F6l/s/YSjnUtJ8uHnzC4oaGGnN2jFt/riW+D6PvWo/KP1Z0EKaSskku7InYLilx+EjRoTdNbsmt3e4redrp+ZwmLwiWXM9J2ph3OlKK1tdeKzXyOHxlLtxvlaSvl3ljNclj3vTlJcZO3hfL2sYaVWzsWOIwu63Hk7IratJo0yy1X5p/PiYqMVzsY4T4ehkiiifUcn7mNwXMlKo1wMMVdgbcaiUTRxNS5lrysrI1t1sDSqI0acP4nkXM8O+Rr08K3USSbbysldvlkiotKuHn11GdO6nuUnFrW6SS+R7HU2ZCpnJWlxt+szmejXRmaq069WNowhDdi/i3klm1wtyO4i1p7Mxa6SObxWx5x+HtL3K2Sadmds48vc08Zg4VF2lZ8/wDkyY5ZMbkbON2dOD5rmvqaVyjLvAQUgAsdn9GJWW/JR7lm/UucJsejTzUbvnLNljYZluRGMSVhXGgpjsAFRBordp7JhVz0l95d3PmWiQNBK862rserCcm4Nxu2mldNN3WmhT1MBfT0PXHE1p4Km3dwi2ne9le5dZvl47W2Y09GRqYO3mey1MPGXxRT8Uma1bY9CStKlB+VvdF1Pl47+7S5ZGxDB8T1GHRrCr/1+spfmbOH2VQg7RpR/pv7safLymGx6tR9inKX8sW/oWuC6EYifxRUF+J5ryVz1CMLdw4LiNX5cbgegNJZ1ZufcuyvXNnRbM2NQor+FSjDvteT8ZPMsZaexJImrjDKNkPd5iq/FFefpp7v2Mko31IrDKLWn5kd7nkPPh7/AEeonPg8vHTyYEdw1MZsqnUztuvmjca5EoN8QOansKrfKzXO9hnTDBjIArhYjQv5jS5v0GEQGMVxlQkEgQSCEJgJgDI3dyTIx+oDHGNkIkAqmlueX5kyHHyJAKWqXn+RMxw1b8vQyAYlq34L6/Um9BQWX64kary9F6sAirIhKJkZilql4v8AXqBDq2tH5MdOfkNJrv8AmCabAyWASiAE7i3hJDZGkxRBDsEprUZCLzfkSKCLFIIikENEWMiAyNPQbFDQCQyJJAJLP0JCWrJARj9WSYRG2FBCaJkWRSsRcM/IyEQINA4jkMJiPVgTAqDdDdHuWzGRYjF/IlYil2vL6mQCMVr4/QbBCnoUCEwE9SLgZFMbIoIJaDEwKYZJECQDjxJEI6skRcERsxOtFLOSXi0vmYJ7Vor/ANi8rv5AbiFI06e1KL+2vO6+ZsRrRkuzJPwafyAykF9WSuRbJoJCQSeQpNIaGovmIcdAKyzS0IjqaAKsRWo2wQNA0IUiQmRSZj3szIzDxZFNyIJjuRTKJOQXIthcIaeZK5jRgxOIt2Y5zei5d77gMtfFRh8TzeiWbfgjBu1qmsurjyWcn4vgPC4RR7UnvTerf05G0NGtS2VSWq3nzk7m1HC01pCP9KNTEbQhDJyu+SzZqPbq+4/VA/i4/d4P7MfRGtV2VSeicXzi2jShtxcYPyaN7D7SpzyUrPk8gfxrVHXo5/30PSSX1M+D2hCq0ouzWbi8mjdRW7S2Up9um9yos01ld+QFj/2EkV+zNoOTdOot2rHVcJL7y9vUsgEgMdOq7ac/mBUxtVNAABUhIGAEICD1AA1CZhYARSZFCAAfAaEBUKTyfgzV2Urwc38Tbu+IAFbpX7aqyjBWbV3nYQBKoHqNjAMU4mPdAALno5iZubi5NxSyT4HQgAb88UPSjsKlUjlNTSUlrazyLeL/AId+NhgD9ZoRVl4IAAqP/9k=" alt="User Avatar" class="user-avatar">
-                                <div>
-                                    <h4>Alex Johnson</h4>
-                                    <small>Posted 2 hours ago</small>
-                                </div>
-                            </div>
-                            <span class="tag">Book Review</span>
-                        </div>
-                        <div class="discussion-content">
-                            <h3>"Project Hail Mary" - An Absolute Masterpiece!</h3>
-                            <p>Just finished Andy Weir's latest novel and I'm completely blown away. The character development, scientific accuracy, and unexpected friendship in this book made it impossible to put down. Has anyone else read it yet?</p>
-                        </div>
-                        <div class="discussion-footer">
-                            <div class="discussion-action">
-                                <i class="fas fa-heart"></i> 42 Likes
-                            </div>
-                            <div class="discussion-action">
-                                <i class="fas fa-comment"></i> 18 Comments
-                            </div>
-                            <div class="discussion-action">
-                                <i class="fas fa-share"></i> Share
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="discussion-card">
-                        <div class="discussion-header">
-                            <div class="user-info">
-                                <img src="data:image/jpeg;base64,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" alt="User Avatar" class="user-avatar">
-                                <div>
-                                    <h4>Maya Peterson</h4>
-                                    <small>Posted yesterday</small>
-                                </div>
-                            </div>
-                            <span class="tag">Book Club</span>
-                        </div>
-                        <div class="discussion-content">
-                            <h3>June Book Club Selection: "Klara and the Sun"</h3>
-                            <p>Our online book club will be reading Kazuo Ishiguro's "Klara and the Sun" for June. Join us for weekly discussions every Thursday at 7 PM EST. The first meeting will focus on chapters 1-5 and themes of artificial intelligence and consciousness.</p>
-                        </div>
-                        <div class="discussion-footer">
-                            <div class="discussion-action">
-                                <i class="fas fa-heart"></i> 28 Likes
-                            </div>
-                            <div class="discussion-action">
-                                <i class="fas fa-comment"></i> 34 Comments
-                            </div>
-                            <div class="discussion-action">
-                                <i class="fas fa-share"></i> Share
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="discussion-card">
-                        <div class="discussion-header">
-                            <div class="user-info">
-                                <img src="data:image/jpeg;base64,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" alt="User Avatar" class="user-avatar">
-                                <div>
-                                    <h4>Daniel Kumar</h4>
-                                    <small>Posted 3 days ago</small>
-                                </div>
-                            </div>
-                            <span class="tag">Question</span>
-                        </div>
-                        <div class="discussion-content">
-                            <h3>Books similar to "The Midnight Library"?</h3>
-                            <p>I recently finished Matt Haig's "The Midnight Library" and absolutely loved the concept of exploring parallel lives and second chances. Can anyone recommend similar books that deal with life choices, alternate realities, or philosophical journeys?</p>
-                        </div>
-                        <div class="discussion-footer">
-                            <div class="discussion-action">
-                                <i class="fas fa-heart"></i> 56 Likes
-                            </div>
-                            <div class="discussion-action">
-                                <i class="fas fa-comment"></i> 47 Comments
-                            </div>
-                            <div class="discussion-action">
-                                <i class="fas fa-share"></i> Share
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="discussion-card">
-                        <div class="discussion-header">
-                            <div class="user-info">
-                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRikBzoJwJucNnFjsLNL4pIyD45_CcAIslSBA&s" alt="User Avatar" class="user-avatar">
-                                <div>
-                                    <h4>Olivia Rodriguez</h4>
-                                    <small>Posted 4 days ago</small>
-                                </div>
-                            </div>
-                            <span class="tag">Author Spotlight</span>
-                        </div>
-                        <div class="discussion-content">
-                            <h3>Let's Talk About Gabrielle Zevin</h3>
-                            <p>I just finished "Tomorrow, and Tomorrow, and Tomorrow" and want to explore more of Zevin's work. Her writing style is so captivating, especially how she weaves complex relationships through time. Which of her other books would you recommend starting with?</p>
-                        </div>
-                        <div class="discussion-footer">
-                            <div class="discussion-action">
-                                <i class="fas fa-heart"></i> 39 Likes
-                            </div>
-                            <div class="discussion-action">
-                                <i class="fas fa-comment"></i> 23 Comments
-                            </div>
-                            <div class="discussion-action">
-                                <i class="fas fa-share"></i> Share
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Load More Button -->
-                    <button class="form-btn" style="width: 100%; margin-top: 2rem;">
-                        Load More Discussions
-                    </button>
-                </div>
+      <section>
+        <h2>Book Community</h2>
+        <div class="community-container">
+          <!-- Sidebar -->
+          <div class="community-sidebar">
+            <h3>Popular Topics</h3>
+            <ul>
+              <li>
+                <a href="#"><i class="fas fa-fire"></i> Book Recommendations</a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-star"></i> New Releases</a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-comments"></i> Reading Groups</a>
+              </li>
+              <li>
+                <a href="#"
+                  ><i class="fas fa-question-circle"></i> Book Club Questions</a
+                >
+              </li>
+              <li>
+                <a href="#"
+                  ><i class="fas fa-quote-left"></i> Quotes & Passages</a
+                >
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-pen"></i> Author Discussions</a>
+              </li>
+            </ul>
+
+            <h3>Book Clubs</h3>
+            <ul>
+              <li>
+                <a href="#"
+                  ><i class="fas fa-users"></i> Science Fiction Enthusiasts</a
+                >
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-users"></i> Mystery Lovers</a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-users"></i> Fantasy Realms</a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-users"></i> Literary Classics</a>
+              </li>
+              <li>
+                <a href="#"
+                  ><i class="fas fa-users"></i> Non-Fiction Knowledge</a
+                >
+              </li>
+            </ul>
+
+            <button class="form-btn">
+              <i class="fas fa-plus"></i> Create New Discussion
+            </button>
+          </div>
+
+          <!-- Main Content -->
+          <div class="community-content">
+            <div class="bookshelf-header">
+              <h3>Recent Discussions</h3>
+              <div class="search-filter">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search discussions..."
+                />
+              </div>
             </div>
-        </section>
-        
-        <section>
-            <h2>Upcoming Book Events</h2>
-            <div class="events-container">
-                <div class="event-card">
-                    <div class="event-date">
-                        <span class="day">24</span>
-                        <span class="month">May</span>
-                    </div>
-                    <div class="event-details">
-                        <h3>Virtual Author Q&A: Michelle Obama</h3>
-                        <p><i class="fas fa-clock"></i> 7:00 PM EST</p>
-                        <p><i class="fas fa-map-marker-alt"></i> Online Event</p>
-                        <button class="add-btn">Register</button>
-                    </div>
-                </div>
-                
-                <div class="event-card">
-                    <div class="event-date">
-                        <span class="day">02</span>
-                        <span class="month">Jun</span>
-                    </div>
-                    <div class="event-details">
-                        <h3>Science Fiction Book Club Meetup</h3>
-                        <p><i class="fas fa-clock"></i> 6:30 PM EST</p>
-                        <p><i class="fas fa-map-marker-alt"></i> Online Event</p>
-                        <button class="add-btn">Join</button>
-                    </div>
-                </div>
-                
-                <div class="event-card">
-                    <div class="event-date">
-                        <span class="day">15</span>
-                        <span class="month">Jun</span>
-                    </div>
-                    <div class="event-details">
-                        <h3>Summer Reading Challenge Kickoff</h3>
-                        <p><i class="fas fa-clock"></i> All Day</p>
-                        <p><i class="fas fa-map-marker-alt"></i> BookNook Platform</p>
-                        <button class="add-btn">Sign Up</button>
-                    </div>
-                </div>
+
+            <div class="shelf-nav">
+              <div class="shelf-tab active">All Posts</div>
+              <div class="shelf-tab">Hot Topics</div>
+              <div class="shelf-tab">Book Reviews</div>
+              <div class="shelf-tab">Author Spotlights</div>
             </div>
-        </section>
+
+            <!-- Discussion Cards -->
+            <div class="discussion-card">
+              <div class="discussion-header">
+                <div class="user-info">
+                  <img
+                    src="data:image/jpeg;base64,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"
+                    alt="User Avatar"
+                    class="user-avatar"
+                  />
+                  <div>
+                    <h4>Alex Johnson</h4>
+                    <small>Posted 2 hours ago</small>
+                  </div>
+                </div>
+                <span class="tag">Book Review</span>
+              </div>
+              <div class="discussion-content">
+                <h3>"Project Hail Mary" - An Absolute Masterpiece!</h3>
+                <p>
+                  Just finished Andy Weir's latest novel and I'm completely
+                  blown away. The character development, scientific accuracy,
+                  and unexpected friendship in this book made it impossible to
+                  put down. Has anyone else read it yet?
+                </p>
+              </div>
+              <div class="discussion-footer">
+                <div class="discussion-action">
+                  <i class="fas fa-heart"></i> 42 Likes
+                </div>
+                <div class="discussion-action">
+                  <i class="fas fa-comment"></i> 18 Comments
+                </div>
+                <div class="discussion-action">
+                  <i class="fas fa-share"></i> Share
+                </div>
+              </div>
+            </div>
+
+            <div class="discussion-card">
+              <div class="discussion-header">
+                <div class="user-info">
+                  <img
+                    src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhIREhIQFRUVFRUVFRUVFRUPDxUPFRUWFhUVFRUYHSggGBolHRUVITEhJSkrLi4uFx8zODMtNygtLisBCgoKDg0OGhAQGi0eHyItLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tNy0tLS0tLS0tLS0tLS0tLS0tKystLS0rN//AABEIAOEA4QMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAEAAECAwUGBwj/xAA5EAACAQMCBAQDBgQGAwAAAAAAAQIDBBEhMQUSQVEGImFxE5GhMkKBscHwFFLR4RUjM2Jy8Qdjkv/EABkBAAMBAQEAAAAAAAAAAAAAAAECAwAEBf/EACMRAAICAgICAwEBAQAAAAAAAAABAhEDIRIxBEETFCJRYTL/2gAMAwEAAhEDEQA/APKKl8USqZLLi3wDxicqikCi6EsBSnnYCC6cNA3QskOyVOOSE2RoVsSBNutASCZWyJU1yLQIckyE3ozmXJo10Y9zcNtk7ficoFF2vMymSOtQi1TRRGrPjjZGjcKWrMlRyF0aTFeKEetAZqJruAXFXL0IuD7j28MySYEq2wpJEFl9GRqJHUUbaPLsZs7eDngnHyE29DAdpUQbKKaJzsFjQayoJS8zD88asnxtmRcUHnRMjSk4PY7B0qWOhn3tvCSxHGScfK5aaLcKXZg167kbFtxVRhgojweTBLvhk4ajy+LJ+bNFtbLJXam8jszaecl7qMvwS0iTVuzVsaqTNmm8nJ2L86OypxSgmef5S4svijo5/jVqmYbp4NziNXLwAygmdeCTUaZGb2Zwg34Ai/MTkF3dTOiBEi+SG5RUmHmiNGlzNI169ryQALPyyyG3Nfn0IZIzlNV0U5wS2ZEpkGyy7jjYFafYvQqp7DbWt0DoyMmlRe4fT0QKS6JyBr+j1QJUg8bGtzJ7j1FF6DJ0MpGTQigrJpWthHBB8Ner6EHli2O42Z6eXg2LCyW7MupVpweM8z9On4lsOJ1MaRj9WzTx5Jr8i6R0Lkkjmr2vyzyic+JVGugJOedTYfFlDbG56o1bTiKawyN7VTXl3MjK6pmhZU01kEsKg7Ayt1J43YRw5SzllnKiyhUURJSuOkCLt0zZs6i2ZbxC054vABRcXsyd1WnFeU4HB89HXFUtnMXlrySwVuAReXDlLzblKZ68W+Oznl2Qppppm7R4i3HBlKnkKowwic4xn2LzaWiM6WXkqqUsBTkM2USrok2B4EX5Qg0YptssJcEVUaqSwT58hUhpR2SWBpSFyjVIivMvQqiSjTUnqXVqMcdBUo6Fdeokc/JykUTpUVKI7KKtwuhbYLOrLN8VYOFjOLIy8r1NLlRn8Q1Ejkc3QygGU6+I83btuZ9/8WphtvGmn3Vn06v1FZVUvNL7K0x1fbBdC5Tbcm+VPKS74xj0OjHiUdgSA6Vuo5RNv3/AsqVlLywWr6dEu7b1Kp2Mvl66fgdCkbiRaWyb9tn8iOP3/cjKEo92vn9SXPpndfX29xrFoaRBZTzFtP0/oO87ojkElYQ234h/MtSu4um9gZRyOll4OZ4UnY1Isp3Uo7MOocYltIz3TZDAkscZdodSYXfVoy1Q1pTywaMQ610YJfmNISTDeQHlPDCKlZYBFqyUYk7J/EGqJ40GaLaEu407j0BMD5ZCNHyiF+RjAE6eRW8cMucWUyfYs460FBqQPdyK513gjGaZOOPex4xHp3LWg9WTY9OlzBStW0PwXZpQM6UUWUbjlJVKWCiSM1emBP8AoRG8beCd501xncGpIuqeZr9/9+wFFXoeMtEqkG4Llxjbp+YrThrnFY1euVnoXySUUnn266/kjsvAXBPiPnktC85Ugwi2zj3wCthYUlv8wKvw1weJc6ffp9D6Fq8KpxWFFYx2Oc4rwKnJvyr5CRyFHjPFG5R9UKSysrb9TveN+FlhuKOJrUHTbi17r17o6IysjKFAsWO18/3oTqRKW2nkZsSiaFOXzQ0J5WV/dZFUeUB7MkaFKpFxRW6Gdga1zg0bV6HPJ+harZQ7UnTpk6ktRuclHvYZdaFyDxKqlYqU2x3Qiiw9Uwe7zHYlCq0U3VbJKLldMfjTKPjSHIZHKUhqN6vb+VmRyvODepV1LRldnaJzba0FUq7HlC+jK/hmWwoY0wb1S0Tehm3L5XqIssZOkx+DSKqVLAdFabmc551LKdZ9yzTqxFk2VXNvJ7IBqUmnhmjVlnqUVKeQqLonOcb0CRiTVRR16/SK7+5ZjCfroA1q2G1jXv2RoDxWgizlKpVhHXWSX4t7s958N2KpUoR7LX3PD/Cvmu6Cf8x9BWMdESzt8kjqwrTYRcy0M6qsmhWQFURojAFxbJo898XcBafxIo9MkwG/owlF5ZVa6Jv/AE8Frpr8CDq5WTpvF1lQjJypVIt680N8r09TkXo+6ZVbOeSom49Y7P8AeCCcs4wKOU9GWOf7QwAiksJZfXp29w6D0MfnZZbXUoP0fR/mieSFrQrRoyEhSrJ6lE63YkkxaZOTRZACUtTQt8NG4WF62EfCTQRRso4y0iiOhGd/hYJ8WmVhKLVhP8ND0EAfxTEGmNyiXr0LYXMlszPoXXRh9SrDlLUqIbsKocQwtwW/r84DKediyDIfDHlyQXkdUQlLCGt5vI1ZkrVZwkNKTQF0XSgyuUW9Mv8ADc37XhmVlg1/w9RWSMfMi3xHWB9nP124ta/v1A5zywy5m22gJ9cr+p2QG9Gh4dr8l1bz6KrDPV8ucSwuujPZavEb2UVKjRhTh0+LPkm100SeMnjvhGHPe2y7VE/ll/oercZoV6tanTk5xt1/quD5aku0U1ql7ak8tc0joxr8NlMOO8Qi/PRpTX/rq5kl7Nam1w3ivxdHCUZdmsfLucMuByp3Dx8TkUm+eMmvJ5sJKUt/s9sHZ+EaFRvz67rdP2emzNJNbGi0wniNxKMW4rXocVxSVSWtevNRz/p0spyfRZWr6bbndcbWMxW6OVqW7VSM4rWOyays9Xq9d2Fdisw7HjVvD/LpWU9c68sJTko5y9dZPd43A+K8NoXUfi0Eot9ljXqnE6G14JyTdSEms5aSWkG1jy53eG1rqFWfCFTWi7t79fcM2l0CKb/6R5DUt3FuMlhoZx9DtfGHDVrNLD/uccnjcrjlyRHJDiyrCLKcBqiQ9ALJhPw9CMYE4yE2RYpFU8sujTa1RXGQbayTeDJhsirnG5ROUWHX9BYMgz2LX8LtBFIgUYNp2GSFaya1Naxll43ZvVOFuUMKOvsTlk49mTs5mypJoruaWAqdtUot80XgonWUnoPGaatAYBJ4COHVMSyyNSg86k6ccbCuKkh1KjpY8RikZnEb3n0QBXjN9HghFMhh8bGpXdjTyyoqlQxn2/UFrUcB8njVgdzLKTe719s/9HoxpGV0XeELlUr2hJ7fFjH/AOpcv6n0V8CMoo+X6NTlqKXaSl8nk+jvDPFYXNCnUi8px751Tw/qc/kR2mdOB6aHqcKUn1wa9hbRgkooapLCBrK6UZSlN4WUll4/e5NstVmVx1f5jYHQpqQXx64g8y5uv0M3hzw3h5XzQyewVo0oWxTcQwGRqaAN9UDNgijjvFEcxa9vXqjzSqsTaTeknr1ep6R4srclKc9NMYz3yjzeMuaUpP1f4srg6IZ+yS1JU5aoi1+pJR6lWiIREi5CTHpvUg2LVlsKLLaKcWXU5IlgVSQjtMlOrlYM+tSC5aFdQNoyuzP5WIIwIPIodN4RUPj4m+h6jUVGMebTGDwWNaSaabT9Nzcp8fqShyOT2xv0ObLhchao6TxTxilLMY4ycZTeGWSa7lM6qRTHhUI0LtsKnXyKlJJpgSqZJ6h4aoN0dVQrU5RxhGLxVKDygGnVa2ZKvVclg58fjyxztMs8sZqmVt/ETx06enUqqx82H2Xy1WCqncuE0vwZG5ypZyejEHozpLXB3n/i7jzo1v4eTfJU+x/trdF7SX1SOKuY6r1/MlFuLUk2msNNaNNap/PAZR5RaDCTi7PpVXCeEyyrCE4uLSa9fzOS8Mcdje26nnFReWolpy1e69H0/sX1eGvlxKvXceqUoxx7eXX8TzrafFnoxSl0Su6aTk21yrZtrcEtbmC2lFAF5w6K2uKrXaUafN80v0BI8Kpro33c25P6lklQ+SGjov4tdHn2K61TIDaW8YfZWF8h7q4UU2ybeyNHJf8AkG7ShGl1k8v/AIxf9cHFUF+/YN8TXLqV5SfZJLtHsZ8c7HbCNRo45yuVk0/otROXQhKemCGdWU9EjQoYkh3HBRYt5CqhCWmZdkY1MFiuSglToOTEaXsYt+NllkkKPD5FjoSRJyj6YskwflEXcog8hNmeh02dzceFVCj8TKbxk5mVuit2Uk+PYCssTos6PgnC4zbctkWcWpU6bSwkyUsjToaMbVnMfDa6MJpT7nRcH4T8fLXQz+L8N+FPkeVnZ9BozsEoWAJCqLCFTg45yUzfM8FLJ8dlN1HmlzLfsh7tfde5f8N01ndvbvgjN8y5X9p657ehVRtWVMebezC6OqS6/n6A9SWrIwkMhfZueGeJ1LW4U4ap6Tg/szj2fr2Z7Zwi7pXNNSXbVP7SfZnhFtWXPD1eD0fgTlTxKLw9M+vucnkRt2deB+jr73hyWqAP4ZdS3+OlJa4BqspPsiCaLsquqqgv3kxr1vDct+3Y0Jww87vv+9jI4vV0ZSEbZKcqR5/xiH+a36fqDNIM4k8yf70Rn6tnfHo4pFkkVQimy2rt9PxB2sMLFNK2gktC2SBLOrpgJbISjbEd2Nyl9lPEipB1nBbshk6Kwe9m3QawthVKcWA1LpJaAE79nEsEm7LSmjS+DH0EY/8AFyGK/BP+ic0dmuPxnb8r0kljGpyXxdRnMrydyikc8pOVWaljeuGV0YDxC4dSeX0Ko1MD5TM4xuzKTqjp/CPGYUvJLCyzY8R/CqJSTTxseeyWNS6d7OUeXOn1YnwW/wAlY5GlTLb64TejM74iTIyRGSOhYUhLbYVd3GYxSev19jJqTeoRUhrka5o9V2TQ3Q4LTQmsE4UtMkoyUY5xq/oHsBqeHrLnnzPPkxhe/VnoNjlJI5DwbS1lnOdG/qd3RpYwQyRKwYTbyZfVqaEKdIavFnNw2dPLQFPucvx65SydJfy5Ys4DjV1l4eU8v5IvjWyM2ZF3LMvchhR33ZKpPVvqCyk92dNnOSluRlqxRZLmxsjGFCWGvQ0UBUa0VvFe4YqiexOSEfY8WEQmBllORJMaUbRdUkUtEpSGNewOLoiImIa0TphFtDmZoqwQFw564Og5cRyefnyyUjohCzFurHQzKMdcGrf3xkOeXoWw82titJBNzhLCKmKpIZyPQhHiqFIMixNiKGGoPdvONfcIhJOKz7FGCX3ceoskMmScMLl6djMqR1Yep7P/AKz2B7h5ewIhZ0nhW6UK3K/vrEf+Ucy1ftk9Bpa4PLuCX6p1aM5YxlxfpzLGfy+bPWLSCwhZIaLCKUdBpxyWziQRFoojH4xS8j/E8v41WaqzT2XLjtqss9b4mlySz2PIOMVozqylHbOE++NMjQWxZvRnVX2yRRZnPREootRKyqKJcpa4rpkjMZIUgkTQkhzUAshV7l0QYuto5aROcFVjKRamTUSUqOCUUc63tDOSWiHIIsyIOxeUSNvccrydFaXanHU5edJ9mFW6mtkyGXx+asrCaRbxKms6ASWoVOjJ66lE4Nbl8WOSqxJNNkJvR+xBMlLZlUGdQpPAiSGYwBCYhzGINFMoBDGwYwM9mvx/qem+BeLfFoqEnmdPEX3cfuy+mPwPNpwC+C8SlbVY1Y7ZxOPSUHuv6eoGgpntmcldSSQPY3kKlONSDzGSyn6HH+NvE/JmhSl5vvyX3V/Kv9z+mSfEpyA/GfiJ1G6FKXlWVUknu/5U+3c4mTWqSz6+opzctP3+JKEMDpUTbsSjgfA4+BhSJGSLCODGGwPgRJGMNgnTlhp9mRYgPowbVrNvI3MGcNsY1IczbzlpoN/wePdmh4mStEZ5Y3sxeYRs/wCDx7sQ/wBTIL8sDWUF2RJQQyQj00c7FKC7HM8VqZqS9NPkdPzI5G7fnl7v8zm8p6SOjx1tsplsUxepdLYFkzhOoLQ7Q0SQQER8CYgmGaGJDGMRaK5RLWRaMY0uFeIqltRqUY6p602/uSf2v6+5h8rerf669S+rDoVQkYw6RISHwEA2BD4FgxhmMxxmAww6GFkwRDogmTMY0eDXahJp7P8AM6WEk1lHG20sTi/U7GisI7vFk2qZxeRFJ2TEPzCOs5dkUxNnLf4lU7jq/qfzHnfdh/Du+u0dQnsc3xWly1JL1yEcMrTlUjmWmVoGeIbfzNonlyrJtFcUOKMCWwHPcLqAk9yJULpbL2LEV0tl7FiCYTGJDBAMxiTIGMOyA7EkYwpblFRYk/mElFxuvYxhoksEYk0EAmhmSZFmMMRZJEWAxEhNkmypvJglkCwhEmYAx0keLxwtGc2y5VNEH55Yl+RJ4lPs3v8AF49mIwviiB97KJ9aJBFkRxHOjpYdwr/Uj7o3uMiEX9A9HJ1uoHLcQgBCqf2V7FqEIICREQggGZEQjGEPEYRjEmD190IRjCiTQhBAKRBiEYwwzEIBiuRXEQjGLoEhCMEQ4wieToaIhCERGP/Z"
+                    alt="User Avatar"
+                    class="user-avatar"
+                  />
+                  <div>
+                    <h4>Maya Peterson</h4>
+                    <small>Posted yesterday</small>
+                  </div>
+                </div>
+                <span class="tag">Book Club</span>
+              </div>
+              <div class="discussion-content">
+                <h3>June Book Club Selection: "Klara and the Sun"</h3>
+                <p>
+                  Our online book club will be reading Kazuo Ishiguro's "Klara
+                  and the Sun" for June. Join us for weekly discussions every
+                  Thursday at 7 PM EST. The first meeting will focus on chapters
+                  1-5 and themes of artificial intelligence and consciousness.
+                </p>
+              </div>
+              <div class="discussion-footer">
+                <div class="discussion-action">
+                  <i class="fas fa-heart"></i> 28 Likes
+                </div>
+                <div class="discussion-action">
+                  <i class="fas fa-comment"></i> 34 Comments
+                </div>
+                <div class="discussion-action">
+                  <i class="fas fa-share"></i> Share
+                </div>
+              </div>
+            </div>
+
+            <div class="discussion-card">
+              <div class="discussion-header">
+                <div class="user-info">
+                  <img
+                    src="data:image/jpeg;base64,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"
+                    alt="User Avatar"
+                    class="user-avatar"
+                  />
+                  <div>
+                    <h4>Daniel Kumar</h4>
+                    <small>Posted 3 days ago</small>
+                  </div>
+                </div>
+                <span class="tag">Question</span>
+              </div>
+              <div class="discussion-content">
+                <h3>Books similar to "The Midnight Library"?</h3>
+                <p>
+                  I recently finished Matt Haig's "The Midnight Library" and
+                  absolutely loved the concept of exploring parallel lives and
+                  second chances. Can anyone recommend similar books that deal
+                  with life choices, alternate realities, or philosophical
+                  journeys?
+                </p>
+              </div>
+              <div class="discussion-footer">
+                <div class="discussion-action">
+                  <i class="fas fa-heart"></i> 56 Likes
+                </div>
+                <div class="discussion-action">
+                  <i class="fas fa-comment"></i> 47 Comments
+                </div>
+                <div class="discussion-action">
+                  <i class="fas fa-share"></i> Share
+                </div>
+              </div>
+            </div>
+
+            <div class="discussion-card">
+              <div class="discussion-header">
+                <div class="user-info">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRikBzoJwJucNnFjsLNL4pIyD45_CcAIslSBA&s"
+                    alt="User Avatar"
+                    class="user-avatar"
+                  />
+                  <div>
+                    <h4>Olivia Rodriguez</h4>
+                    <small>Posted 4 days ago</small>
+                  </div>
+                </div>
+                <span class="tag">Author Spotlight</span>
+              </div>
+              <div class="discussion-content">
+                <h3>Let's Talk About Gabrielle Zevin</h3>
+                <p>
+                  I just finished "Tomorrow, and Tomorrow, and Tomorrow" and
+                  want to explore more of Zevin's work. Her writing style is so
+                  captivating, especially how she weaves complex relationships
+                  through time. Which of her other books would you recommend
+                  starting with?
+                </p>
+              </div>
+              <div class="discussion-footer">
+                <div class="discussion-action">
+                  <i class="fas fa-heart"></i> 39 Likes
+                </div>
+                <div class="discussion-action">
+                  <i class="fas fa-comment"></i> 23 Comments
+                </div>
+                <div class="discussion-action">
+                  <i class="fas fa-share"></i> Share
+                </div>
+              </div>
+            </div>
+
+            <!-- Load More Button -->
+            <button class="form-btn" style="width: 100%; margin-top: 2rem">
+              Load More Discussions
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Upcoming Book Events</h2>
+        <div class="events-container">
+          <div class="event-card">
+            <div class="event-date">
+              <span class="day">24</span>
+              <span class="month">May</span>
+            </div>
+            <div class="event-details">
+              <h3>Virtual Author Q&A: Michelle Obama</h3>
+              <p><i class="fas fa-clock"></i> 7:00 PM EST</p>
+              <p><i class="fas fa-map-marker-alt"></i> Online Event</p>
+              <button class="add-btn">Register</button>
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-date">
+              <span class="day">02</span>
+              <span class="month">Jun</span>
+            </div>
+            <div class="event-details">
+              <h3>Science Fiction Book Club Meetup</h3>
+              <p><i class="fas fa-clock"></i> 6:30 PM EST</p>
+              <p><i class="fas fa-map-marker-alt"></i> Online Event</p>
+              <button class="add-btn">Join</button>
+            </div>
+          </div>
+
+          <div class="event-card">
+            <div class="event-date">
+              <span class="day">15</span>
+              <span class="month">Jun</span>
+            </div>
+            <div class="event-details">
+              <h3>Summer Reading Challenge Kickoff</h3>
+              <p><i class="fas fa-clock"></i> All Day</p>
+              <p><i class="fas fa-map-marker-alt"></i> BookNook Platform</p>
+              <button class="add-btn">Sign Up</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>BookNook</h3>
-                <p>Your online community for book lovers.</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-goodreads"></i></a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p><i class="fas fa-envelope"></i> info@booknook.com</p>
-                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-            </div>
-            <div class="footer-section">
-                <h3>Newsletter</h3>
-                <p>Stay updated with our latest book recommendations.</p>
-                <form>
-                    <input type="email" placeholder="Enter your email">
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>BookNook</h3>
+          <p>Your online community for book lovers.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-goodreads"></i></a>
+          </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 BookNook. All rights reserved.</p>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
         </div>
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p><i class="fas fa-envelope"></i> info@booknook.com</p>
+          <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+        </div>
+        <div class="footer-section">
+          <h3>Newsletter</h3>
+          <p>Stay updated with our latest book recommendations.</p>
+          <form>
+            <input type="email" placeholder="Enter your email" />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 BookNook. All rights reserved.</p>
+      </div>
     </footer>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

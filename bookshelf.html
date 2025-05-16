@@ -1,860 +1,908 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BookNook - My Book Shelf</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        /* Bookshelf specific styles */
-        .bookshelf-container {
-            padding: 2rem 0;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
+      /* Bookshelf specific styles */
+      .bookshelf-container {
+        padding: 2rem 0;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .shelf-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+      }
+
+      .shelf-header h2 {
+        margin: 0;
+        font-size: 1.8rem;
+      }
+
+      .shelf-filter {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .shelf-filter select {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        border: 1px solid #ddd;
+        outline: none;
+        font-size: 0.9rem;
+      }
+
+      .shelf-filter .view-toggle {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .shelf-filter .view-toggle button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 5px;
+      }
+
+      .shelf-filter .view-toggle button.active {
+        background-color: #f0f0f0;
+      }
+
+      .shelf-tabs {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid #eee;
+        padding: 0 1rem;
+      }
+
+      .shelf-tab {
+        padding: 0.75rem 1.5rem;
+        cursor: pointer;
+        font-weight: 500;
+        position: relative;
+      }
+
+      .shelf-tab.active {
+        border-bottom: 3px solid #4a6fa5;
+        color: #4a6fa5;
+      }
+
+      .shelf-tab .count {
+        background-color: #eee;
+        color: #666;
+        font-size: 0.8rem;
+        border-radius: 20px;
+        padding: 0.1rem 0.5rem;
+        margin-left: 0.5rem;
+      }
+
+      .shelf-empty {
+        text-align: center;
+        padding: 3rem 1rem;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        margin: 2rem 1rem;
+      }
+
+      .shelf-empty i {
+        font-size: 3rem;
+        color: #ccc;
+        margin-bottom: 1rem;
+      }
+
+      .shelf-empty h3 {
+        margin-bottom: 1rem;
+        color: #555;
+      }
+
+      .shelf-empty button {
+        background-color: #4a6fa5;
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 20px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .shelf-empty button:hover {
+        background-color: #3a5a8a;
+      }
+
+      /* Grid view */
+      .books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 2rem;
+        padding: 0 1rem;
+      }
+
+      .shelf-book {
+        position: relative;
+        transition: transform 0.3s;
+      }
+
+      .shelf-book:hover {
+        transform: translateY(-5px);
+      }
+
+      .shelf-book .book-cover {
+        height: 250px;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .shelf-book .book-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+      }
+
+      .shelf-book:hover .book-cover img {
+        transform: scale(1.05);
+      }
+
+      .shelf-book .book-info {
+        padding: 1rem 0;
+      }
+
+      .shelf-book .book-info h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+
+      .shelf-book .book-info p {
+        margin: 0;
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .shelf-book .rating {
+        margin: 0.5rem 0;
+        color: #f8c12c;
+        font-size: 0.8rem;
+      }
+
+      .shelf-book .book-actions {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .shelf-book:hover .book-actions {
+        opacity: 1;
+      }
+
+      .shelf-book .book-actions button {
+        background-color: white;
+        border: none;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        color: #555;
+        transition: transform 0.2s, background-color 0.2s;
+      }
+
+      .shelf-book .book-actions button:hover {
+        transform: scale(1.1);
+        background-color: #f0f0f0;
+      }
+
+      /* List view */
+      .books-list {
+        display: none; /* Hidden by default, toggle with JS */
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0 1rem;
+      }
+
+      .list-book {
+        display: flex;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .list-book:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .list-book .book-cover {
+        width: 120px;
+        min-width: 120px;
+        height: 180px;
+      }
+
+      .list-book .book-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .list-book .book-details {
+        padding: 1rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .list-book .book-title {
+        font-size: 1.2rem;
+        margin: 0 0 0.5rem 0;
+      }
+
+      .list-book .book-author {
+        color: #666;
+        margin: 0 0 0.5rem 0;
+      }
+
+      .list-book .book-meta {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.9rem;
+        color: #777;
+        margin-bottom: 0.5rem;
+      }
+
+      .list-book .rating {
+        color: #f8c12c;
+        margin-right: 0.5rem;
+      }
+
+      .list-book .book-description {
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: #555;
+        flex-grow: 1;
+      }
+
+      .list-book .book-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        margin-top: auto;
+      }
+
+      .list-book .book-actions button {
+        background: none;
+        border: none;
+        color: #666;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+      }
+
+      .list-book .book-actions button:hover {
+        background-color: #f0f0f0;
+      }
+
+      /* Reading progress */
+      .progress-container {
+        height: 5px;
+        width: 100%;
+        background-color: #eee;
+        border-radius: 10px;
+        margin-top: 0.5rem;
+      }
+
+      .progress-bar {
+        height: 100%;
+        border-radius: 10px;
+        background-color: #4a6fa5;
+      }
+
+      /* Reading status badge */
+      .status-badge {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #4a6fa5;
+        color: white;
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+        border-top-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+
+      .status-badge.reading {
+        background-color: #4a6fa5;
+      }
+
+      .status-badge.completed {
+        background-color: #4caf50;
+      }
+
+      .status-badge.want-to-read {
+        background-color: #ff9800;
+      }
+
+      /* Create new collection modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 2rem;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .modal-header h3 {
+        margin: 0;
+      }
+
+      .close-modal {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #777;
+      }
+
+      .modal-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .modal-form input,
+      .modal-form textarea {
+        width: 100%;
+        padding: 0.75rem;
+        margin-bottom: 1.5rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+
+      .modal-form textarea {
+        height: 100px;
+        resize: vertical;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+      }
+
+      .modal-actions button {
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+
+      .btn-cancel {
+        background: none;
+        border: 1px solid #ddd;
+        color: #555;
+      }
+
+      .btn-create {
+        background-color: #4a6fa5;
+        border: none;
+        color: white;
+      }
+
+      .btn-create:hover {
+        background-color: #3a5a8a;
+      }
+
+      /* Create new collection button */
+      .create-collection {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: #f9f9f9;
+        border: 2px dashed #ddd;
+        border-radius: 8px;
+        padding: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin: 1rem;
+        justify-content: center;
+      }
+
+      .create-collection:hover {
+        background-color: #f0f0f0;
+      }
+
+      .create-collection i {
+        font-size: 1.5rem;
+        color: #4a6fa5;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
         .shelf-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding: 0 1rem;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
         }
-        
-        .shelf-header h2 {
-            margin: 0;
-            font-size: 1.8rem;
-        }
-        
+
         .shelf-filter {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
+          width: 100%;
+          justify-content: space-between;
         }
-        
-        .shelf-filter select {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid #ddd;
-            outline: none;
-            font-size: 0.9rem;
-        }
-        
-        .shelf-filter .view-toggle {
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .shelf-filter .view-toggle button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 5px;
-        }
-        
-        .shelf-filter .view-toggle button.active {
-            background-color: #f0f0f0;
-        }
-        
-        .shelf-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #eee;
-            padding: 0 1rem;
-        }
-        
-        .shelf-tab {
-            padding: 0.75rem 1.5rem;
-            cursor: pointer;
-            font-weight: 500;
-            position: relative;
-        }
-        
-        .shelf-tab.active {
-            border-bottom: 3px solid #4a6fa5;
-            color: #4a6fa5;
-        }
-        
-        .shelf-tab .count {
-            background-color: #eee;
-            color: #666;
-            font-size: 0.8rem;
-            border-radius: 20px;
-            padding: 0.1rem 0.5rem;
-            margin-left: 0.5rem;
-        }
-        
-        .shelf-empty {
-            text-align: center;
-            padding: 3rem 1rem;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            margin: 2rem 1rem;
-        }
-        
-        .shelf-empty i {
-            font-size: 3rem;
-            color: #ccc;
-            margin-bottom: 1rem;
-        }
-        
-        .shelf-empty h3 {
-            margin-bottom: 1rem;
-            color: #555;
-        }
-        
-        .shelf-empty button {
-            background-color: #4a6fa5;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 20px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .shelf-empty button:hover {
-            background-color: #3a5a8a;
-        }
-        
-        /* Grid view */
+
         .books-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 2rem;
-            padding: 0 1rem;
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          gap: 1.5rem;
         }
-        
-        .shelf-book {
-            position: relative;
-            transition: transform 0.3s;
-        }
-        
-        .shelf-book:hover {
-            transform: translateY(-5px);
-        }
-        
+
         .shelf-book .book-cover {
-            height: 250px;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            position: relative;
+          height: 200px;
         }
-        
-        .shelf-book .book-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-        
-        .shelf-book:hover .book-cover img {
-            transform: scale(1.05);
-        }
-        
-        .shelf-book .book-info {
-            padding: 1rem 0;
-        }
-        
-        .shelf-book .book-info h3 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1rem;
-            line-height: 1.4;
-        }
-        
-        .shelf-book .book-info p {
-            margin: 0;
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
-        .shelf-book .rating {
-            margin: 0.5rem 0;
-            color: #f8c12c;
-            font-size: 0.8rem;
-        }
-        
-        .shelf-book .book-actions {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .shelf-book:hover .book-actions {
-            opacity: 1;
-        }
-        
-        .shelf-book .book-actions button {
-            background-color: white;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            color: #555;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-        
-        .shelf-book .book-actions button:hover {
-            transform: scale(1.1);
-            background-color: #f0f0f0;
-        }
-        
-        /* List view */
-        .books-list {
-            display: none; /* Hidden by default, toggle with JS */
-            flex-direction: column;
-            gap: 1rem;
-            padding: 0 1rem;
-        }
-        
+
         .list-book {
-            display: flex;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s, box-shadow 0.3s;
+          flex-direction: column;
         }
-        
-        .list-book:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
+
         .list-book .book-cover {
-            width: 120px;
-            min-width: 120px;
-            height: 180px;
+          width: 100%;
+          height: 200px;
         }
-        
-        .list-book .book-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .list-book .book-details {
-            padding: 1rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .list-book .book-title {
-            font-size: 1.2rem;
-            margin: 0 0 0.5rem 0;
-        }
-        
-        .list-book .book-author {
-            color: #666;
-            margin: 0 0 0.5rem 0;
-        }
-        
-        .list-book .book-meta {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            font-size: 0.9rem;
-            color: #777;
-            margin-bottom: 0.5rem;
-        }
-        
-        .list-book .rating {
-            color: #f8c12c;
-            margin-right: 0.5rem;
-        }
-        
-        .list-book .book-description {
-            margin: 0.5rem 0;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #555;
-            flex-grow: 1;
-        }
-        
-        .list-book .book-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-            margin-top: auto;
-        }
-        
-        .list-book .book-actions button {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        
-        .list-book .book-actions button:hover {
-            background-color: #f0f0f0;
-        }
-        
-        /* Reading progress */
-        .progress-container {
-            height: 5px;
-            width: 100%;
-            background-color: #eee;
-            border-radius: 10px;
-            margin-top: 0.5rem;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            border-radius: 10px;
-            background-color: #4a6fa5;
-        }
-        
-        /* Reading status badge */
-        .status-badge {
-            position: absolute;
-            top: 0;
-            left: 0;
-            background-color: #4a6fa5;
-            color: white;
-            font-size: 0.7rem;
-            padding: 0.2rem 0.5rem;
-            border-top-left-radius: 5px;
-            border-bottom-right-radius: 5px;
-        }
-        
-        .status-badge.reading {
-            background-color: #4a6fa5;
-        }
-        
-        .status-badge.completed {
-            background-color: #4caf50;
-        }
-        
-        .status-badge.want-to-read {
-            background-color: #ff9800;
-        }
-        
-        /* Create new collection modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .modal-content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .modal-header h3 {
-            margin: 0;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #777;
-        }
-        
-        .modal-form label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .modal-form input, 
-        .modal-form textarea {
-            width: 100%;
-            padding: 0.75rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        
-        .modal-form textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-        }
-        
-        .modal-actions button {
-            padding: 0.75rem 1.5rem;
-            border-radius: 5px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        
-        .btn-cancel {
-            background: none;
-            border: 1px solid #ddd;
-            color: #555;
-        }
-        
-        .btn-create {
-            background-color: #4a6fa5;
-            border: none;
-            color: white;
-        }
-        
-        .btn-create:hover {
-            background-color: #3a5a8a;
-        }
-        
-        /* Create new collection button */
-        .create-collection {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background-color: #f9f9f9;
-            border: 2px dashed #ddd;
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin: 1rem;
-            justify-content: center;
-        }
-        
-        .create-collection:hover {
-            background-color: #f0f0f0;
-        }
-        
-        .create-collection i {
-            font-size: 1.5rem;
-            color: #4a6fa5;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .shelf-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            
-            .shelf-filter {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .books-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 1.5rem;
-            }
-            
-            .shelf-book .book-cover {
-                height: 200px;
-            }
-            
-            .list-book {
-                flex-direction: column;
-            }
-            
-            .list-book .book-cover {
-                width: 100%;
-                height: 200px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <div class="logo">
-            <h1>BookNook</h1>
+      <div class="logo">
+        <h1>BookNook</h1>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="bookshelf.html" class="active">My Book Shelf</a></li>
+          <li><a href="community.html">Community</a></li>
+
+          <li><a href="login.html" class="login-btn">Login</a></li>
+        </ul>
+        <div class="burger">
+          <div class="line1"></div>
+          <div class="line2"></div>
+          <div class="line3"></div>
         </div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="bookshelf.html" class="active">My Book Shelf</a></li>
-                <li><a href="community.html">Community</a></li>
-                
-                <li><a href="login.html" class="login-btn">Login</a></li>
-            </ul>
-            <div class="burger">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </div>
-        </nav>
+      </nav>
     </header>
 
     <main>
-        <section class="bookshelf-hero">
-            <div class="hero-content">
-                <h2>My Book Shelf</h2>
-                <p>Manage your reading list and track your progress</p>
-            </div>
-        </section>
-
-        <section class="bookshelf-container">
-            <div class="shelf-header">
-                <h2>My Books</h2>
-                <div class="shelf-filter">
-                    <select id="sort-books">
-                        <option value="recent">Recently Added</option>
-                        <option value="title">Title (A-Z)</option>
-                        <option value="author">Author (A-Z)</option>
-                        <option value="rating">Rating (High-Low)</option>
-                    </select>
-                    <div class="view-toggle">
-                        <button id="grid-view" class="active"><i class="fas fa-th-large"></i></button>
-                        <button id="list-view"><i class="fas fa-list"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="shelf-tabs">
-                <div class="shelf-tab active">All Books <span class="count">7</span></div>
-                <div class="shelf-tab">Currently Reading <span class="count">2</span></div>
-                <div class="shelf-tab">Completed <span class="count">3</span></div>
-                <div class="shelf-tab">Want to Read <span class="count">2</span></div>
-                <div class="shelf-tab">Collections</div>
-            </div>
-
-            <!-- Books Grid View (Default) -->
-            <div class="books-grid">
-                <!-- Book 1 -->
-                <div class="shelf-book">
-                    <div class="book-cover">
-                        <img src="https://m.media-amazon.com/images/I/81nkxCvP08L._AC_UY436_FMwebp_QL65_.jpg" alt="Book Cover 1">
-                        <div class="status-badge reading">Reading</div>
-                        <div class="book-actions">
-                            <button><i class="fas fa-ellipsis-v"></i></button>
-                            <button><i class="far fa-heart"></i></button>
-                        </div>
-                    </div>
-                    <div class="book-info">
-                        <h3>The Midnight Library</h3>
-                        <p>Matt Haig</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-bar" style="width: 65%;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 2 -->
-                <div class="shelf-book">
-                    <div class="book-cover">
-                        <img src="https://m.media-amazon.com/images/I/71qwG8A93WL._AC_UY436_FMwebp_QL65_.jpg" alt="Book Cover 2">
-                        <div class="status-badge completed">Completed</div>
-                        <div class="book-actions">
-                            <button><i class="fas fa-ellipsis-v"></i></button>
-                            <button><i class="fas fa-heart"></i></button>
-                        </div>
-                    </div>
-                    <div class="book-info">
-                        <h3>Project Hail Mary</h3>
-                        <p>Andy Weir</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 3 -->
-                <div class="shelf-book">
-                    <div class="book-cover">
-                        <img src="https://m.media-amazon.com/images/I/81G1+VNIclL._AC_UY436_FMwebp_QL65_.jpg" alt="Book Cover 3">
-                        <div class="status-badge want-to-read">Want to Read</div>
-                        <div class="book-actions">
-                            <button><i class="fas fa-ellipsis-v"></i></button>
-                            <button><i class="far fa-heart"></i></button>
-                        </div>
-                    </div>
-                    <div class="book-info">
-                        <h3>Klara and the Sun</h3>
-                        <p>Kazuo Ishiguro</p>
-                        <div class="rating">
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 4 -->
-                <div class="shelf-book">
-                    <div class="book-cover">
-                        <img src="https://m.media-amazon.com/images/I/61XzsVXiDwL._AC_UY436_FMwebp_QL65_.jpg" alt="Book Cover 4">
-                        <div class="status-badge completed">Completed</div>
-                        <div class="book-actions">
-                            <button><i class="fas fa-ellipsis-v"></i></button>
-                            <button><i class="fas fa-heart"></i></button>
-                        </div>
-                    </div>
-                    <div class="book-info">
-                        <h3>The Invisible Life of Addie LaRue</h3>
-                        <p>V.E. Schwab</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 5 -->
-                <div class="shelf-book">
-                    <div class="book-cover">
-                        <img src="https://m.media-amazon.com/images/I/71NuND85wpL._AC_UY436_FMwebp_QL65_.jpg" alt="Book Cover 5">
-                        <div class="status-badge reading">Reading</div>
-                        <div class="book-actions">
-                            <button><i class="fas fa-ellipsis-v"></i></button>
-                            <button><i class="far fa-heart"></i></button>
-                        </div>
-                    </div>
-                    <div class="book-info">
-                        <h3>Tomorrow, and Tomorrow, and Tomorrow</h3>
-                        <p>Gabrielle Zevin</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-bar" style="width: 28%;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 6 -->
-                <div class="shelf-book">
-                    <div class="book-cover">
-                        <img src="https://m.media-amazon.com/images/I/81a4HBNjBkL._AC_UY436_FMwebp_QL65_.jpg" alt="Book Cover 6">
-                        <div class="status-badge completed">Completed</div>
-                        <div class="book-actions">
-                            <button><i class="fas fa-ellipsis-v"></i></button>
-                            <button><i class="fas fa-heart"></i></button>
-                        </div>
-                    </div>
-                    <div class="book-info">
-                        <h3>Sea of Tranquility</h3>
-                        <p>Emily St. John Mandel</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 7 -->
-                <div class="shelf-book">
-                    <div class="book-cover">
-                        <img src="https://m.media-amazon.com/images/I/71j-SRnfiJL._AC_UY436_FMwebp_QL65_.jpg" alt="Book Cover 7">
-                        <div class="status-badge want-to-read">Want to Read</div>
-                        <div class="book-actions">
-                            <button><i class="fas fa-ellipsis-v"></i></button>
-                            <button><i class="far fa-heart"></i></button>
-                        </div>
-                    </div>
-                    <div class="book-info">
-                        <h3>The Light We Carry</h3>
-                        <p>Michelle Obama</p>
-                        <div class="rating">
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Books List View (Hidden by default) -->
-            <div class="books-list">
-                <!-- Book 1 -->
-                <div class="list-book">
-                    <div class="book-cover">
-                        <img src="/api/placeholder/120/180" alt="Book Cover 1">
-                    </div>
-                    <div class="book-details">
-                        <h3 class="book-title">The Midnight Library</h3>
-                        <p class="book-author">Matt Haig</p>
-                        <div class="book-meta">
-                            <span class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span>4.5</span>
-                            </span>
-                            <span>Status: Reading (65%)</span>
-                            <span>Added: May 10, 2025</span>
-                        </div>
-                        <p class="book-description">Between life and death there is a library, and within that library, the shelves go on forever. Every book provides a chance to try another life you could have lived.</p>
-                        <div class="book-actions">
-                            <button><i class="fas fa-edit"></i> Edit</button>
-                            <button><i class="fas fa-heart"></i> Favorite</button>
-                            <button><i class="fas fa-trash"></i> Remove</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Book 2 -->
-                <div class="list-book">
-                    <div class="book-cover">
-                        <img src="/api/placeholder/120/180" alt="Book Cover 2">
-                    </div>
-                    <div class="book-details">
-                        <h3 class="book-title">Project Hail Mary</h3>
-                        <p class="book-author">Andy Weir</p>
-                        <div class="book-meta">
-                            <span class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <span>5.0</span>
-                            </span>
-                            <span>Status: Completed</span>
-                            <span>Added: April 15, 2025</span>
-                        </div>
-                        <p class="book-description">Ryland Grace is the sole survivor on a desperate mission - and if he fails, humanity and the Earth itself will perish. But he can't remember his own name, let alone the nature of his assignment.</p>
-                        <div class="book-actions">
-                            <button><i class="fas fa-edit"></i> Edit</button>
-                            <button><i class="fas fa-heart"></i> Favorite</button>
-                            <button><i class="fas fa-trash"></i> Remove</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- More list books would follow... -->
-            </div>
-
-            <!-- Create new collection button -->
-            <div class="create-collection">
-                <i class="fas fa-plus-circle"></i>
-                <span>Create New Collection</span>
-            </div>
-        </section>
-
-        <!-- Empty state (hidden by default, show with JS when appropriate) -->
-        <div class="shelf-empty" style="display: none;">
-            <i class="fas fa-book-open"></i>
-            <h3>Your bookshelf is empty</h3>
-            <p>Start adding books to your collection</p>
-            <button>Explore Books</button>
+      <section class="bookshelf-hero">
+        <div class="hero-content">
+          <h2>My Book Shelf</h2>
+          <p>Manage your reading list and track your progress</p>
         </div>
+      </section>
+
+      <section class="bookshelf-container">
+        <div class="shelf-header">
+          <h2>My Books</h2>
+          <div class="shelf-filter">
+            <select id="sort-books">
+              <option value="recent">Recently Added</option>
+              <option value="title">Title (A-Z)</option>
+              <option value="author">Author (A-Z)</option>
+              <option value="rating">Rating (High-Low)</option>
+            </select>
+            <div class="view-toggle">
+              <button id="grid-view" class="active">
+                <i class="fas fa-th-large"></i>
+              </button>
+              <button id="list-view"><i class="fas fa-list"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="shelf-tabs">
+          <div class="shelf-tab active">
+            All Books <span class="count">7</span>
+          </div>
+          <div class="shelf-tab">
+            Currently Reading <span class="count">2</span>
+          </div>
+          <div class="shelf-tab">Completed <span class="count">3</span></div>
+          <div class="shelf-tab">Want to Read <span class="count">2</span></div>
+          <div class="shelf-tab">Collections</div>
+        </div>
+
+        <!-- Books Grid View (Default) -->
+        <div class="books-grid">
+          <!-- Book 1 -->
+          <div class="shelf-book">
+            <div class="book-cover">
+              <img
+                src="https://m.media-amazon.com/images/I/81nkxCvP08L._AC_UY436_FMwebp_QL65_.jpg"
+                alt="Book Cover 1"
+              />
+              <div class="status-badge reading">Reading</div>
+              <div class="book-actions">
+                <button><i class="fas fa-ellipsis-v"></i></button>
+                <button><i class="far fa-heart"></i></button>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3>The Midnight Library</h3>
+              <p>Matt Haig</p>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 65%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 2 -->
+          <div class="shelf-book">
+            <div class="book-cover">
+              <img
+                src="https://m.media-amazon.com/images/I/71qwG8A93WL._AC_UY436_FMwebp_QL65_.jpg"
+                alt="Book Cover 2"
+              />
+              <div class="status-badge completed">Completed</div>
+              <div class="book-actions">
+                <button><i class="fas fa-ellipsis-v"></i></button>
+                <button><i class="fas fa-heart"></i></button>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3>Project Hail Mary</h3>
+              <p>Andy Weir</p>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 3 -->
+          <div class="shelf-book">
+            <div class="book-cover">
+              <img
+                src="https://m.media-amazon.com/images/I/81G1+VNIclL._AC_UY436_FMwebp_QL65_.jpg"
+                alt="Book Cover 3"
+              />
+              <div class="status-badge want-to-read">Want to Read</div>
+              <div class="book-actions">
+                <button><i class="fas fa-ellipsis-v"></i></button>
+                <button><i class="far fa-heart"></i></button>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3>Klara and the Sun</h3>
+              <p>Kazuo Ishiguro</p>
+              <div class="rating">
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 4 -->
+          <div class="shelf-book">
+            <div class="book-cover">
+              <img
+                src="https://m.media-amazon.com/images/I/61XzsVXiDwL._AC_UY436_FMwebp_QL65_.jpg"
+                alt="Book Cover 4"
+              />
+              <div class="status-badge completed">Completed</div>
+              <div class="book-actions">
+                <button><i class="fas fa-ellipsis-v"></i></button>
+                <button><i class="fas fa-heart"></i></button>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3>The Invisible Life of Addie LaRue</h3>
+              <p>V.E. Schwab</p>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 5 -->
+          <div class="shelf-book">
+            <div class="book-cover">
+              <img
+                src="https://m.media-amazon.com/images/I/71NuND85wpL._AC_UY436_FMwebp_QL65_.jpg"
+                alt="Book Cover 5"
+              />
+              <div class="status-badge reading">Reading</div>
+              <div class="book-actions">
+                <button><i class="fas fa-ellipsis-v"></i></button>
+                <button><i class="far fa-heart"></i></button>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3>Tomorrow, and Tomorrow, and Tomorrow</h3>
+              <p>Gabrielle Zevin</p>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar" style="width: 28%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 6 -->
+          <div class="shelf-book">
+            <div class="book-cover">
+              <img
+                src="https://m.media-amazon.com/images/I/81a4HBNjBkL._AC_UY436_FMwebp_QL65_.jpg"
+                alt="Book Cover 6"
+              />
+              <div class="status-badge completed">Completed</div>
+              <div class="book-actions">
+                <button><i class="fas fa-ellipsis-v"></i></button>
+                <button><i class="fas fa-heart"></i></button>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3>Sea of Tranquility</h3>
+              <p>Emily St. John Mandel</p>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <i class="far fa-star"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 7 -->
+          <div class="shelf-book">
+            <div class="book-cover">
+              <img
+                src="https://m.media-amazon.com/images/I/71j-SRnfiJL._AC_UY436_FMwebp_QL65_.jpg"
+                alt="Book Cover 7"
+              />
+              <div class="status-badge want-to-read">Want to Read</div>
+              <div class="book-actions">
+                <button><i class="fas fa-ellipsis-v"></i></button>
+                <button><i class="far fa-heart"></i></button>
+              </div>
+            </div>
+            <div class="book-info">
+              <h3>The Light We Carry</h3>
+              <p>Michelle Obama</p>
+              <div class="rating">
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Books List View (Hidden by default) -->
+        <div class="books-list">
+          <!-- Book 1 -->
+          <div class="list-book">
+            <div class="book-cover">
+              <img src="/api/placeholder/120/180" alt="Book Cover 1" />
+            </div>
+            <div class="book-details">
+              <h3 class="book-title">The Midnight Library</h3>
+              <p class="book-author">Matt Haig</p>
+              <div class="book-meta">
+                <span class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                  <span>4.5</span>
+                </span>
+                <span>Status: Reading (65%)</span>
+                <span>Added: May 10, 2025</span>
+              </div>
+              <p class="book-description">
+                Between life and death there is a library, and within that
+                library, the shelves go on forever. Every book provides a chance
+                to try another life you could have lived.
+              </p>
+              <div class="book-actions">
+                <button><i class="fas fa-edit"></i> Edit</button>
+                <button><i class="fas fa-heart"></i> Favorite</button>
+                <button><i class="fas fa-trash"></i> Remove</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Book 2 -->
+          <div class="list-book">
+            <div class="book-cover">
+              <img src="/api/placeholder/120/180" alt="Book Cover 2" />
+            </div>
+            <div class="book-details">
+              <h3 class="book-title">Project Hail Mary</h3>
+              <p class="book-author">Andy Weir</p>
+              <div class="book-meta">
+                <span class="rating">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <span>5.0</span>
+                </span>
+                <span>Status: Completed</span>
+                <span>Added: April 15, 2025</span>
+              </div>
+              <p class="book-description">
+                Ryland Grace is the sole survivor on a desperate mission - and
+                if he fails, humanity and the Earth itself will perish. But he
+                can't remember his own name, let alone the nature of his
+                assignment.
+              </p>
+              <div class="book-actions">
+                <button><i class="fas fa-edit"></i> Edit</button>
+                <button><i class="fas fa-heart"></i> Favorite</button>
+                <button><i class="fas fa-trash"></i> Remove</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- More list books would follow... -->
+        </div>
+
+        <!-- Create new collection button -->
+        <div class="create-collection">
+          <i class="fas fa-plus-circle"></i>
+          <span>Create New Collection</span>
+        </div>
+      </section>
+
+      <!-- Empty state (hidden by default, show with JS when appropriate) -->
+      <div class="shelf-empty" style="display: none">
+        <i class="fas fa-book-open"></i>
+        <h3>Your bookshelf is empty</h3>
+        <p>Start adding books to your collection</p>
+        <button>Explore Books</button>
+      </div>
     </main>
 
     <!-- Create Collection Modal -->
     <div class="modal" id="collection-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Create New Collection</h3>
-                <button class="close-modal">&times;</button>
-            </div>
-            <div class="modal-form">
-                <label for="collection-name">Collection Name</label>
-                <input type="text" id="collection-name" placeholder="e.g., Fantasy Favorites">
-                
-                <label for="collection-description">Description (Optional)</label>
-                <textarea id="collection-description" placeholder="What's this collection about?"></textarea>
-                
-                <div class="modal-actions">
-                    <button class="btn-cancel">Cancel</button>
-                    <button class="btn-create">Create Collection</button>
-                </div>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Create New Collection</h3>
+          <button class="close-modal">&times;</button>
         </div>
+        <div class="modal-form">
+          <label for="collection-name">Collection Name</label>
+          <input
+            type="text"
+            id="collection-name"
+            placeholder="e.g., Fantasy Favorites"
+          />
+
+          <label for="collection-description">Description (Optional)</label>
+          <textarea
+            id="collection-description"
+            placeholder="What's this collection about?"
+          ></textarea>
+
+          <div class="modal-actions">
+            <button class="btn-cancel">Cancel</button>
+            <button class="btn-create">Create Collection</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>BookNook</h3>
-                <p>Your online community for book lovers.</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-goodreads"></i></a>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p><i class="fas fa-envelope"></i> info@booknook.com</p>
-                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-            </div>
-            <div class="footer-section">
-                <h3>Newsletter</h3>
-                <p>Stay updated with our latest book recommendations.</p>
-                <form>
-                    <input type="email" placeholder="Enter your email">
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
-        
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>BookNook</h3>
+          <p>Your online community for book lovers.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-goodreads"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h3>Contact Us</h3>
+          <p><i class="fas fa-envelope"></i> info@booknook.com</p>
+          <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+        </div>
+        <div class="footer-section">
+          <h3>Newsletter</h3>
+          <p>Stay updated with our latest book recommendations.</p>
+          <form>
+            <input type="email" placeholder="Enter your email" />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
