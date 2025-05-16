@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNook - Your Online Book Community</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>BookNook</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="bookshelf.html">My Book Shelf</a></li>
+                <li><a href="community.html">Community</a></li>
+                
+                <li><a href="login.html" class="login-btn">Login</a></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Discover Your Next Great Read</h2>
+                <p>Explore thousands of book recommendations curated just for you</p>
+                <div class="search-container">
+                    <input type="text" placeholder="Search by title, author, or genre...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <section class="featured">
+            <h2>Featured Books</h2>
+            <div class="book-container">
+                <div class="book">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/81YkqyaFVEL._AC_UF1000,1000_QL80_.jpg" alt="Book Cover 1">
+                        <div class="book-hover">
+                            <div class="book-info">
+                                <h3>The Midnight Library</h3>
+                                <p>Matt Haig</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <button class="add-btn">Add to Shelf</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="book">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/413tVFk--xS._SY445_SX342_PQ86_.jpg" alt="Book Cover 2">
+                        <div class="book-hover">
+                            <div class="book-info">
+                                <h3>Project Hail Mary</h3>
+                                <p>Andy Weir</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <button class="add-btn">Add to Shelf</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="book">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/41rotDTWohL._SY445_SX342_PQ86_.jpg" alt="Book Cover 3">
+                        <div class="book-hover">
+                            <div class="book-info">
+                                <h3>Klara and the Sun</h3>
+                                <p>Kazuo Ishiguro</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <button class="add-btn">Add to Shelf</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="book">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/81zyFvFYZNL._SY522_.jpg" alt="Book Cover 4">
+                        <div class="book-hover">
+                            <div class="book-info">
+                                <h3>The Invisible Life of Addie LaRue</h3>
+                                <p>V.E. Schwab</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <button class="add-btn">Add to Shelf</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="genres">
+            <h2>Browse by Genre</h2>
+            <div class="genre-container">
+                <div class="genre">
+                    <img src="https://m.media-amazon.com/images/I/81wNtZNVj7L._AC_UY436_FMwebp_QL65_.jpg" alt="Fiction">
+                    <h3>Fiction</h3>
+                </div>
+                <div class="genre">
+                    <img src="data:image/jpeg;base64,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" alt="Mystery">
+                    <h3>Mystery</h3>
+                </div>
+                <div class="genre">
+                    <img src="https://m.media-amazon.com/images/I/81EIFBObjoL._AC_UY436_FMwebp_QL65_.jpg" alt="Science Fiction">
+                    <h3>Science Fiction</h3>
+                </div>
+                <div class="genre">
+                    <img src="https://m.media-amazon.com/images/I/91MmgIpEOgL._AC_UY436_FMwebp_QL65_.jpg" alt="Fantasy">
+                    <h3>Fantasy</h3>
+                </div>
+                <div class="genre">
+                    <img src="https://m.media-amazon.com/images/I/71nhs9-Ut7L._AC_UY436_FMwebp_QL65_.jpg" alt="Non-Fiction">
+                    <h3>Non-Fiction</h3>
+                </div>
+                <div class="genre">
+                    <img src="https://m.media-amazon.com/images/I/41o6UpBtSjL._AC_UY436_FMwebp_QL65_.jpg" alt="Biography">
+                    <h3>Biography</h3>
+                </div>
+            </div>
+        </section>
+
+        <section class="new-releases">
+            <h2>New Releases</h2>
+            <div class="book-container">
+                <div class="book">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/91ke43dIxkL._AC_UF1000,1000_QL80_.jpg" alt="New Release 1">
+                        <div class="book-hover">
+                            <div class="book-info">
+                                <h3>Tomorrow, and Tomorrow, and Tomorrow</h3>
+                                <p>Gabrielle Zevin</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <button class="add-btn">Add to Shelf</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="book">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/81wT8Y8qpkL._AC_UY436_FMwebp_QL65_.jpg" alt="New Release 2">
+                        <div class="book-hover">
+                            <div class="book-info">
+                                <h3>Sea of Tranquility</h3>
+                                <p>Emily St. John Mandel</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <button class="add-btn">Add to Shelf</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="book">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/81rjQZAjkqL._AC_UY436_FMwebp_QL65_.jpg" alt="New Release 3">
+                        <div class="book-hover">
+                            <div class="book-info">
+                                <h3>The Light We Carry</h3>
+                                <p>Michelle Obama</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <button class="add-btn">Add to Shelf</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="book">
+                    <div class="book-cover">
+                        <img src="https://m.media-amazon.com/images/I/71NMOekv+wL._AC_UY436_FMwebp_QL65_.jpg" alt="New Release 4">
+                        <div class="book-hover">
+                            <div class="book-info">
+                                <h3>Demon Copperhead</h3>
+                                <p>Barbara Kingsolver</p>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <button class="add-btn">Add to Shelf</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>BookNook</h3>
+                <p>Your online community for book lovers.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-goodreads"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> info@booknook.com</p>
+                <p><i class="fas fa-phone"></i> +919891437786</p>
+            </div>
+            <div class="footer-section">
+                <h3>Newsletter</h3>
+                <p>Stay updated with our latest book recommendations.</p>
+                <form>
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 BookNook. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
